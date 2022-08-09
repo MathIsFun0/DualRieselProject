@@ -1,0 +1,3 @@
+main.cpp - main executable portion
+util.cpp - helper functions used in other files
+common.cpp/hpp - Options and Conjecture classes
