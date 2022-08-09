@@ -1,6 +1,0 @@
-2022-04-22 23:09:44: Sieve started: 3 < p < 2^62 with 5000 terms (1 <= n <= 100, -99 <= c <= -1, 2^n+c)
-2022-04-22 23:09:48: Sieve interrupted at p=122973401.  Primes tested 7001228.  Found 4752 factors.  248 terms remaining.  Time 4.13 seconds
-
-2022-04-22 23:42:28: Sieve started: 122973401 < p < 2^62 with 248 terms (1 <= n <= 100, -99 <= c <= -1, 2^n+c)
-2022-04-22 23:42:29: Sieve interrupted at p=160504691.  Primes tested 2000000.  Found 3 factors.  245 terms remaining.  Time 1.14 seconds
-
