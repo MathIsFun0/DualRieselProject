@@ -4,7 +4,7 @@ These formulas were discovered from data used in Conjectures 'R Us, so much of t
 
 ## Modulos
 
-If $k$ is divisible by the base or some factor $f$ of the base ($k\equiv 0\ \text{mod}\  f$), then $b^n \pm k$ is always composite.
+If $k$ is divisible by the base or some factor $f$ of the base $(k\equiv 0\ \text{mod}\  f)$, then $b^n \pm k$ is always composite.
 
 $k$ is of the form $fx$. We have $b^n \pm bx = f(\frac{b}{f}\cdot b^{n-1}\pm x)$ is always composite.
 
