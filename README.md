@@ -1,5 +1,5 @@
 # Dual Riesel Project
-Code and data for solving the Dual Riesel conjecture.
+Code and data for solving the Dual Riesel conjecture. Currently in heavy development.
 
 - This branch contains the source code for the client.
 - The "website" branch contains source code for the website.
