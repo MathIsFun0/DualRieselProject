@@ -5,6 +5,29 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Azeret+Mono:wght@500&display=swap');
 
+$color-1: #93b7be;
+$color-2: #d4f5f5;
+$color-3: #8c9a9e;
+$color-4: #747578;
+$color-5: #020100;
+
 body, header h1, h1, h2, h3, h4, h5, h6 {
   font-family: "Azeret Mono", monospace !important;
+}
+
+header h1:before {
+ content: "" !important; 
+}
+
+body {
+  background: $color-5;
+  color: $color-1;
+}
+
+header h1, h1, h2, h3, h4, h5, h6 {
+ color: $color-2; 
+}
+
+header h2 {
+ color: $color-4; 
 }
