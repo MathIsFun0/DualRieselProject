@@ -28,8 +28,11 @@ body {
   color: $color-1  !important;
 }
 
-header h1, h1, h2, h3, h4, h5, h6, hr {
+header h1, h1, h2, h3, h4, h5, h6 {
  color: $color-2 !important; 
+ text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1),
+              0 0 5px rgba(212, 245, 245, 0.1),
+              0 0 10px rgba(212, 245, 245, 0.1) !important;
 }
 
 header h2 {
