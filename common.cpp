@@ -65,7 +65,7 @@ Conjecture::Conjecture(std::string inputFile) {
         }
         in.close();
     } else {
-        std::cout << "Unable to open file"; //Can't do print() because it assumes Conjecture::print()
+        std::cout << "Unable to open file\n"; //Can't do print() because it assumes Conjecture::print()
         exit(1);
     }
     input.erase(std::remove(input.begin(), input.end(), '\r'), input.end()); //In case Linux reads a Windows file - https://stackoverflow.com/questions/20326356/how-to-remove-all-the-occurrences-of-a-char-in-c-string
@@ -155,7 +155,7 @@ Options::Options(std::string inputFile) {
         }
         in.close();
     } else {
-        print("Unable to open file");
+        println("Unable to open file");
         exit(1);
     }
     input.erase(std::remove(input.begin(), input.end(), '\r'), input.end()); //In case Linux reads a Windows file - https://stackoverflow.com/questions/20326356/how-to-remove-all-the-occurrences-of-a-char-in-c-string
