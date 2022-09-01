@@ -15,18 +15,18 @@ Both of these problems also have duals. When trying to use negative values for $
 
 ## Why do we stop at 509,203?
 The only way for a “nontrivial” candidate to appear is through something called a covering set. When increasing $$ \mathsf{n} $$, each factor will repeat. For example, for numbers of the form $$ \mathsf{2^n - k} $$, factors of three will repeat every other time. In some cases, these repeating factors will line up such that every $$ \mathsf{n} $$ will have a small factor - this is a covering set. In this case, the smallest candidate to have a covering set is $$ \mathsf{509203} $$. It’s covering set is as follows:
-If $$ \mathsf{n \equiv 0\ mod\ 2}, \mathsf{2^n - 509203} $$ has a factor of $$ \mathsf{3} $$
+If $$ \mathsf{n \equiv 0\ mod\ 2},\ \mathsf{2^n - 509203} $$ has a factor of $$ \mathsf{3} $$
 So, only odd numbers ($$ \mathsf{n \equiv 1\ mod\ 2} $$) remain.
-If $$ \mathsf{n \equiv 3\ mod\ 4, 2^n - 509203} $$ has a factor of $$ \mathsf{5} $$.
+If $$ \mathsf{n \equiv 3\ mod\ 4,\ 2^n - 509203} $$ has a factor of $$ \mathsf{5} $$.
 So, only $$ \mathsf{n \equiv 1\ mod\ 4} $$ remain.
-If $$ \mathsf{n \equiv 1\ mod\ 3, 2^n - 509203} $$ has a factor of $$ \mathsf{7} $$.
+If $$ \mathsf{n \equiv 1\ mod\ 3,\ 2^n - 509203} $$ has a factor of $$ \mathsf{7} $$.
 So, only $$ \mathsf{n \equiv 5,9\ mod\ 12} $$ remain.
-If $$ \mathsf{n \equiv 5\ mod\ 12, 2^n - 509203} $$ has a factor of $$ \mathsf{13} $$.
+If $$ \mathsf{n \equiv 5\ mod\ 12,\ 2^n - 509203} $$ has a factor of $$ \mathsf{13} $$.
 So, only $$ \mathsf{n \equiv 9\ mod\ 12} $$ remain.
-If $$ \mathsf{n \equiv 1\ mod\ 8, 2^n - 509203} $$ has a factor of $$ \mathsf{17} $$.
+If $$ \mathsf{n \equiv 1\ mod\ 8,\ 2^n - 509203} $$ has a factor of $$ \mathsf{17} $$.
 So, only $$ \mathsf{n \equiv 21\ mod\ 24} $$ remain.
-If $$ \mathsf{n \equiv 21\ mod\ 24, 2^n - 509203} $$ has a factor of $$ \mathsf{241} $$.
-So, all numbers of the form $$ \mathf{2^n - 509203} $$ are composite.
+If $$ \mathsf{n \equiv 21\ mod\ 24,\ 2^n - 509203} $$ has a factor of $$ \mathsf{241} $$.
+So, all numbers of the form $$ \mathsf{2^n - 509203} $$ are composite.
 
 ## How many k’s have no Riesel or Dual Riesel prime/PRP?
-There are five: $$ \mathsf{327671, 342847, 344759, 386801,} $$ and $$ \mathsf{444637} $$.
+There are five: $$ \mathsf{327671,\ 342847,\ 344759,\ 386801,} $$ and $$ \mathsf{444637} $$.
