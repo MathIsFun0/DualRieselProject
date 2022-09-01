@@ -54,7 +54,8 @@
 
 
 
-Our Efforts:  = not yet submitted to prptop
+Our Efforts:
+(numbers over 50,000 digits are submitted to PRPTop as Harrison Mesh)
 
 
 2^84199-328567
