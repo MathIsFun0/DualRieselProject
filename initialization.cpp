@@ -17,6 +17,11 @@
 #include <cstdio>
 #endif
 
+#ifndef CMATH
+#define CMATH
+#include <cmath>
+#endif
+
 void initialization(Options options) {
     Conjecture conjecture;
     if (options.dualRieselMode) {
@@ -125,15 +130,19 @@ void getTrivialFactors(Options options, Conjecture conjecture) {
             trivialFactors.push_back({0, 1, i});
         }
     }
+    bool ignoreSpecialSquares = false;
     //Perfect Powers (type 1)
     for (int p : perfectPowers(conjecture.base)) {
         std::vector<int> prf = primeFactors(p);
         if ((conjecture.conjectureType != "S") || (std::count(prf.begin(), prf.end(), 2) != prf.size())) {//powers of 2^x don't factorize in Sierpinski
             trivialFactors.push_back({1, p});
+            if (p == 2) {
+                ignoreSpecialSquares = true;
+            }
         }
     }
     //Special Squares (type 2)
-    if (conjecture.conjectureType != "S") {
+    if (conjecture.conjectureType != "S" && !ignoreSpecialSquares) {
         for (int p : distinctPrimeFactors(conjecture.base+1)) {
             if (p % 4 == 1) {
                 //Finding the modulo brute force is enough here
@@ -181,10 +190,47 @@ void askForFactors(Options options, Conjecture conjecture, std::vector<std::vect
     char response;
     std::cin >> response;
     switch (response) {
-        case 'Y': /*parseFilters();*/ break;
-        case 'y': /*parseFilters();*/ break;
+        case 'Y': parseFilters(options, conjecture, trivialFactors); break;
+        case 'y': parseFilters(options, conjecture, trivialFactors); break;
         case 'C': {std::vector<std::vector<int>> v; askForFactors(options, conjecture, v); break;}
         case 'c': {std::vector<std::vector<int>> v; askForFactors(options, conjecture, v); break;}
         default: askForFactors(options, conjecture, trivialFactors); break;
     }
+}
+
+void parseFilters(Options options, Conjecture conjecture, std::vector<std::vector<int>> trivialFactors) {
+    //Estimate how many k will be remaining
+    long estimatedMax = conjecture.maxK - conjecture.minK + 1;
+    long estimatedMin = conjecture.maxK - conjecture.minK + 1;
+    for (std::vector<int> factor : trivialFactors) {
+        switch (factor[0]) {
+            case 0: {
+                estimatedMax = estimatedMax * (factor[2] - 1) / factor[2] + 1;
+                estimatedMin = estimatedMin * (factor[2] - 1) / factor[2];
+                break;
+            }
+            case 1: {
+                estimatedMin = estimatedMin - std::floor(std::pow(conjecture.maxK, 1.0/factor[1])) + std::ceil(std::pow(conjecture.minK, 1.0/factor[1])) - 1;
+                break;
+            }
+            case 2: {
+                long maxM = std::floor(std::sqrt(conjecture.maxK));
+                long minM = std::ceil(std::sqrt(conjecture.minK));
+                estimatedMin = estimatedMin - calculateModBetween(minM, maxM, factor[1], factor[2]) - calculateModBetween(minM, maxM, factor[2] - factor[1], factor[2]);
+                break;
+            }
+            case 3: {
+                long maxM = std::floor(std::sqrt(conjecture.maxK/factor[1]));
+                long minM = std::ceil(std::sqrt(conjecture.minK/factor[1]));
+                estimatedMin = estimatedMin - calculateModBetween(minM, maxM, factor[2], factor[3]) - calculateModBetween(minM, maxM, factor[3] - factor[2], factor[3]);
+                break;
+            }
+            case 4: {
+                estimatedMax--;
+                estimatedMin--;
+                break;
+            }
+        }
+    }
+    println("An estimated "+std::to_string(estimatedMin)+"-"+std::to_string(estimatedMax)+" candidates will remain after filtering.");
 }

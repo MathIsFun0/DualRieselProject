@@ -21,6 +21,7 @@ std::vector<std::string> split(std::string string, char delimiter);
 std::vector<int> primeFactors(int n);
 std::vector<int> distinctPrimeFactors(int n);
 std::vector<int> perfectPowers(int n);
+long calculateModBetween(long x, long y, long m, long n);
 
 template <typename T>
 std::string vec2string(std::vector<T> vec) {

@@ -15,5 +15,6 @@
 void initialization(Options options);
 void getTrivialFactors(Options options, Conjecture conjecture);
 void askForFactors(Options options, Conjecture conjecture, std::vector<std::vector<int>> trivialFactors, bool firstTime = false);
+void parseFilters(Options options, Conjecture conjecture, std::vector<std::vector<int>> trivialFactors);
 
 #endif

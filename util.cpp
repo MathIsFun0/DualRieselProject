@@ -79,3 +79,10 @@ std::vector<int> perfectPowers(int n) {
     }
     return powers;
 }
+
+long calculateModBetween(long x, long y, long m, long n) {
+    //Calculates number of numbers from x-y that are m mod n.
+    long startCoeff = (x + ((m - x) % n) - m)/n;
+    long endCoeff = (y - ((y - m) % n) - m)/n;
+    return endCoeff - startCoeff + 1;
+}
