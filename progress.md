@@ -14,3 +14,6 @@ The current plan is to restart the search from the beginning for the remaining k
 2^338048-304019
 2^337222-340871
 2^329058-287681
+
+## Total Results
+All of the primes and probable primes found in the search can be seen [here](https://github.com/MathIsFun0/DualRieselProject/tree/primes).
