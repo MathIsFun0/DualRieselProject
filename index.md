@@ -14,3 +14,4 @@ _This project is currently a work in progress, so there is no current finished p
 ## I would like more information about the project, conjecture, search, etc.
 
   You can find more information on our [FAQ page](https://mathisfun0.github.io/DualRieselProject/faq), [history page](https://mathisfun0.github.io/DualRieselProject/history), or our [progress page](https://mathisfun0.github.io/DualRieselProject/progress).
+  The primes found so far can be found [here](https://github.com/MathIsFun0/DualRieselProject/tree/primes).
