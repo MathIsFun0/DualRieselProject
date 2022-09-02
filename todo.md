@@ -1,8 +1,7 @@
 # Short Term Goal - add enough features to be able to test any conjecture
 
 - Initialization
- - Port from Java program
-  - Optimize parseFilters - init candidates size using https://stackoverflow.com/questions/25108854/initializing-the-size-of-a-c-vector and estimating based on trivial factors that are linear
+ - Finish `parseFilters()`
 - Initial Testing with PFGW
  - Port from Java Program
  - Each PFGW instance should have own result file
@@ -23,3 +22,8 @@
   - Size can be tweaked with global settings in the GitHub repo
 - A separate program can automatically analyze and update tables that will be used in a website on GitHub Pages
 - Clients can customize which k they want to run
+
+# Non-Code Related Things
+- finish first version of website
+- use list of primes to find remaining k's
+- use PFGW to verify every prime discovered by the old iteration of the project
