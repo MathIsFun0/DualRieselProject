@@ -2,6 +2,12 @@
 #include "common.hpp"
 #include "util.hpp"
 
+#define PLUSMINUS "±"
+#ifdef _WIN32
+#undef PLUSMINUS
+#define PLUSMINUS "+/-"
+#endif
+
 #ifndef ALGORITHM
 #define ALGORITHM
 #include <algorithm>
@@ -45,7 +51,9 @@ void initialization(Options options) {
         return;
     }
 
-    println("Please enter the BASE of this conjecture - B^n ± k");
+    print("Please enter the BASE of this conjecture - B^n ");
+    print(PLUSMINUS);
+    println(" k");
     std::cin >> temp;
     conjecture.base = std::stoi(temp);
     temp = "";
@@ -55,9 +63,11 @@ void initialization(Options options) {
         return;
     }
 
-    println("Please enter the MINIMUM CANDIDATE of this conjecture - b^n ± K");
+    print("Please enter the MINIMUM CANDIDATE of this conjecture - b^n ");
+    print(PLUSMINUS);
+    println(" K");
     std::cin >> temp;
-    conjecture.minK = std::stol(temp);
+    conjecture.minK = std::stoll(temp);
     temp = "";
     if (conjecture.minK < 0) {
         println("Invalid response, please try again.");
@@ -65,10 +75,12 @@ void initialization(Options options) {
         return;
     }
 
-    println("Please enter the MAXIMUM CANDIDATE of this conjecture - b^n ± K");
+    print("Please enter the MAXIMUM CANDIDATE of this conjecture - b^n ");
+    print(PLUSMINUS);
+    println(" K");
     println("If there is no maximum candidate, use the conjectured k minus 1.");
     std::cin >> temp;
-    conjecture.maxK = std::stol(temp);
+    conjecture.maxK = std::stoll(temp);
     temp = "";
     if (conjecture.maxK < conjecture.minK) {
         println("Invalid response, please try again.");
@@ -76,7 +88,9 @@ void initialization(Options options) {
         return;
     }
 
-    println("Please enter the MINIMUM EXPONENT of this conjecture - b^N ± k");
+    print("Please enter the MINIMUM EXPONENT of this conjecture - b^N ");
+    print(PLUSMINUS);
+    println(" k");
     println("To start from scratch, use 1.");
     std::cin >> temp;
     conjecture.minN = std::stoi(temp);
@@ -87,7 +101,9 @@ void initialization(Options options) {
         return;
     }
 
-    println("Please enter the MAXIMUM EXPONENT of this conjecture - b^N ± k");
+    print("Please enter the MAXIMUM EXPONENT of this conjecture - b^N ");
+    print(PLUSMINUS);
+    println(" k");
     println("To have no limit, use 0.");
     std::cin >> temp;
     conjecture.maxN = std::stoi(temp);
@@ -200,8 +216,8 @@ void askForFactors(Options options, Conjecture conjecture, std::vector<std::vect
 
 void parseFilters(Options options, Conjecture conjecture, std::vector<std::vector<int>> trivialFactors) {
     //Estimate how many k will be remaining
-    long estimatedMax = conjecture.maxK - conjecture.minK + 1;
-    long estimatedMin = conjecture.maxK - conjecture.minK + 1;
+    long long estimatedMax = conjecture.maxK - conjecture.minK + 1;
+    long long estimatedMin = conjecture.maxK - conjecture.minK + 1;
     for (std::vector<int> factor : trivialFactors) {
         switch (factor[0]) {
             case 0: {
@@ -214,14 +230,14 @@ void parseFilters(Options options, Conjecture conjecture, std::vector<std::vecto
                 break;
             }
             case 2: {
-                long maxM = std::floor(std::sqrt(conjecture.maxK));
-                long minM = std::ceil(std::sqrt(conjecture.minK));
+                long long maxM = std::floor(std::sqrt(conjecture.maxK));
+                long long minM = std::ceil(std::sqrt(conjecture.minK));
                 estimatedMin = estimatedMin - calculateModBetween(minM, maxM, factor[1], factor[2]) - calculateModBetween(minM, maxM, factor[2] - factor[1], factor[2]);
                 break;
             }
             case 3: {
-                long maxM = std::floor(std::sqrt(conjecture.maxK/factor[1]));
-                long minM = std::ceil(std::sqrt(conjecture.minK/factor[1]));
+                long long maxM = std::floor(std::sqrt(conjecture.maxK/factor[1]));
+                long long minM = std::ceil(std::sqrt(conjecture.minK/factor[1]));
                 estimatedMin = estimatedMin - calculateModBetween(minM, maxM, factor[2], factor[3]) - calculateModBetween(minM, maxM, factor[3] - factor[2], factor[3]);
                 break;
             }
@@ -232,5 +248,68 @@ void parseFilters(Options options, Conjecture conjecture, std::vector<std::vecto
             }
         }
     }
-    println("An estimated "+std::to_string(estimatedMin)+"-"+std::to_string(estimatedMax)+" candidates will remain after filtering.");
+    println("An estimated "+std::to_string(estimatedMin)+" - "+std::to_string(estimatedMax)+" candidates will remain after filtering.");
+    if (estimatedMax > 10000000) {
+        println("Warning - this is a large list of candidates, and it is recommended to split up the list into multiple ranges. If you want to quit now, press Q.");
+        char response;
+        std::cin >> response;
+        if (response == 'q' || response == 'Q') {
+            exit(0);
+        }
+    }
+    conjecture.candidates.reserve(estimatedMax);
+    println("Generating candidates...");
+    for (long long i = conjecture.minK; i <= conjecture.maxK; i++) {
+        if (i % 1000000 == 0 || i == conjecture.maxK) {
+            println("k = "+std::to_string(i));
+        }
+        for (std::vector<int> factor : trivialFactors) {
+            switch (factor[0]) {
+                case 0: {
+                    if (i % factor[2] == factor[1]) {
+                        goto FILTERED;
+                    }
+                    break;
+                }
+                case 1: {
+                    long long nthRoot = std::floor(std::pow(i, 1.0/factor[1]));
+                    if (std::pow(nthRoot, factor[1]) == i) {
+                        goto FILTERED;
+                    }
+                    break;
+                }
+                case 2: {
+                    long long squareRoot = std::floor(std::sqrt(i));
+                    if (squareRoot * squareRoot == i) {
+                        long long rootMod = squareRoot % factor[2];
+                        if (rootMod == factor[1] || rootMod == factor[2] - factor[1]) {  
+                            goto FILTERED;
+                        }
+                    }
+                    break;
+                }
+                case 3: {
+                    long long scaledI = i/factor[1];
+                    long long squareRoot = std::floor(std::sqrt(scaledI));
+                    if (squareRoot * squareRoot == scaledI) {
+                        long long rootMod = squareRoot % factor[3];
+                        if (rootMod == factor[2] || rootMod == factor[3] - factor[2]) {  
+                            goto FILTERED;
+                        }
+                    }
+                    break;
+                }
+                case 4: {
+                    if (i == factor[1]) {
+                        goto FILTERED;
+                    }
+                    break;
+                }
+            }
+        }
+        conjecture.candidates.push_back(i);
+        FILTERED: continue;
+    }
+    conjecture.candidates.shrink_to_fit();
+    println("There are "+std::to_string(conjecture.candidates.size())+" candidates remaining after filtering.");
 }

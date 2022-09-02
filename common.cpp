@@ -31,7 +31,7 @@ Conjecture::Conjecture() {
     minN = 0;
     maxN = INT_MAX;
     step = 0;
-    candidates = std::vector<long>();
+    candidates = std::vector<long long>();
     state = "";
 }
 Conjecture::Conjecture(std::string inputFile) {
@@ -44,7 +44,7 @@ Conjecture::Conjecture(std::string inputFile) {
     minN = 0;
     maxN = INT_MAX;
     step = 0;
-    candidates = std::vector<long>();
+    candidates = std::vector<long long>();
     state = "";
 
     std::string input;
@@ -75,12 +75,12 @@ Conjecture::Conjecture(std::string inputFile) {
             continue;
         };
         std::vector<std::string> splitArg = split(arg, '=');
-        //Here, stoi and stol convert string to other types
+        //Here, stoi and stoll convert string to other types
         if (splitArg[0] == "conjectureType") {conjectureType = splitArg[1];}
         else if (splitArg[0] == "state") {state = splitArg[1];}
         else if (splitArg[0] == "base") {base = std::stoi(splitArg[1]);}
-        else if (splitArg[0] == "minK") {minK = std::stol(splitArg[1]);}
-        else if (splitArg[0] == "maxK") {maxK = std::stol(splitArg[1]);}
+        else if (splitArg[0] == "minK") {minK = std::stoll(splitArg[1]);}
+        else if (splitArg[0] == "maxK") {maxK = std::stoll(splitArg[1]);}
         else if (splitArg[0] == "minN") {minN = std::stoi(splitArg[1]);}
         else if (splitArg[0] == "maxN") {maxN = std::stoi(splitArg[1]);}
         else if (splitArg[0] == "step") {step = std::stoi(splitArg[1]);}
@@ -89,7 +89,7 @@ Conjecture::Conjecture(std::string inputFile) {
             splitArg[1].erase(std::remove(splitArg[1].begin(), splitArg[1].end(), ']'), splitArg[1].end());
             std::vector<std::string> splitCandidates = split(splitArg[1], ',');
             for (std::string candidate : splitCandidates) {
-                candidates.push_back(std::stol(candidate));
+                candidates.push_back(std::stoll(candidate));
             }
         }
     }
@@ -106,7 +106,7 @@ std::string Conjecture::print() {
            "minN=" + std::to_string(minN) + "\n" +
            "maxN=" + std::to_string(maxN) + "\n" +
            "step=" + std::to_string(step) + "\n" +
-           "candidates=" + vec2string<long>(candidates) + "\n";
+           "candidates=" + vec2string<long long>(candidates) + "\n";
 }
 
 void Conjecture::saveToFile(std::string filePath) {
@@ -165,7 +165,7 @@ Options::Options(std::string inputFile) {
             continue;
         };
         std::vector<std::string> splitArg = split(arg, '=');
-        //Here, stoi and stol convert string to other types
+        //Here, stoi and stoll convert string to other types
         if (splitArg[0] == "dualRieselMode") dualRieselMode = (splitArg[1] == "true");
         if (splitArg[0] == "pfgwInstances") pfgwInstances = std::stoi(splitArg[1]);
         if (splitArg[0] == "pfgwThreadsPerInstance") pfgwThreadsPerInstance = std::stoi(splitArg[1]);

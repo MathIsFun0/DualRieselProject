@@ -16,13 +16,13 @@ class Conjecture {
     public:
         std::string conjectureType;
         int base;
-        long minK;
-        long maxK;
+        long long minK;
+        long long maxK;
         int startingN;
         int minN;
         int maxN;
         int step;
-        std::vector<long> candidates;
+        std::vector<long long> candidates;
         std::string state;
         std::string fileName;
         Conjecture();

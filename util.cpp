@@ -62,9 +62,9 @@ std::vector<int> distinctPrimeFactors(int n) {
     return factors;
 }
 
-std::vector<int> perfectPowers(int n) {
+std::vector<int> perfectPowers(int n, int p) {
     std::vector<int> powers;
-    for (int base = 2; base <= std::sqrt(n); base++) {
+    for (int base = 2; base <= std::pow(n, 1.0/p); base++) {
         int currentNum = base * base;
         int power = 2;
         while (currentNum <= n) {
@@ -80,9 +80,9 @@ std::vector<int> perfectPowers(int n) {
     return powers;
 }
 
-long calculateModBetween(long x, long y, long m, long n) {
+long long calculateModBetween(long long x, long long y, long long m, long long n) {
     //Calculates number of numbers from x-y that are m mod n.
-    long startCoeff = (x + ((m - x) % n) - m)/n;
-    long endCoeff = (y - ((y - m) % n) - m)/n;
+    long long startCoeff = (x + ((m - x) % n) - m)/n;
+    long long endCoeff = (y - ((y - m) % n) - m)/n;
     return endCoeff - startCoeff + 1;
 }

@@ -20,13 +20,13 @@ std::vector<std::string> split(std::string string, char delimiter);
 
 std::vector<int> primeFactors(int n);
 std::vector<int> distinctPrimeFactors(int n);
-std::vector<int> perfectPowers(int n);
-long calculateModBetween(long x, long y, long m, long n);
+std::vector<int> perfectPowers(int n, int p = 2);
+long long calculateModBetween(long long x, long long y, long long m, long long n);
 
 template <typename T>
 std::string vec2string(std::vector<T> vec) {
     std::string result = "[";
-    for (long unsigned i = 0; i < vec.size(); i++) {
+    for (long long unsigned i = 0; i < vec.size(); i++) {
         result += std::to_string(vec[i]);
         if (i != vec.size() - 1) {
             result += ",";
