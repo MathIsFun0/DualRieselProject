@@ -1,13 +1,24 @@
 #include "util.hpp"
-#ifndef SSTREAM
-#define SSTREAM
-#include <sstream>
-#endif
 
-#ifndef CMATH
-#define CMATH
 #include <cmath>
-#endif
+#include <sstream>
+
+std::string vec2string(std::vector<std::string> vec, bool raw) {
+    std::string result = "[";
+    if (raw) result = "";
+    for (long long unsigned i = 0; i < vec.size(); i++) {
+        result += vec[i];
+        if (i != vec.size() - 1) {
+            if (raw) {
+                result += "\n";
+            } else {
+                result += ",";
+            }
+        }
+    }
+    if (!raw) result += "]";
+    return result;
+}
 
 std::vector<std::string> split(std::string string, char delimiter) {
     //https://stackoverflow.com/questions/14265581/parse-split-a-string-in-c-using-string-delimiter-standard-c
@@ -85,4 +96,8 @@ long long calculateModBetween(long long x, long long y, long long m, long long n
     long long startCoeff = (x + ((m - x) % n) - m)/n;
     long long endCoeff = (y - ((y - m) % n) - m)/n;
     return endCoeff - startCoeff + 1;
+}
+
+int systemWrapper(std::string arg) {
+    return std::system(arg.c_str());
 }

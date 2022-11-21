@@ -1,31 +1,17 @@
 #include "initialization.hpp"
 #include "common.hpp"
 #include "util.hpp"
+#include "initialTesting.hpp"
+
+#include <algorithm>
+#include <climits>
+#include <cmath>
+#include <cstdio>
 
 #define PLUSMINUS "±"
 #ifdef _WIN32
 #undef PLUSMINUS
 #define PLUSMINUS "+/-"
-#endif
-
-#ifndef ALGORITHM
-#define ALGORITHM
-#include <algorithm>
-#endif
-
-#ifndef CLIMITS
-#define CLIMITS
-#include <climits>
-#endif
-
-#ifndef CSTDIO
-#define CSTDIO
-#include <cstdio>
-#endif
-
-#ifndef CMATH
-#define CMATH
-#include <cmath>
 #endif
 
 void initialization(Options options) {
@@ -37,6 +23,8 @@ void initialization(Options options) {
         conjecture.maxK = 509202;
         conjecture.minN = 1;
         conjecture.maxN = INT_MAX; 
+        getTrivialFactors(options, conjecture);
+        return;
     }
     std::string temp;
     println("Which type of dual conjecture would you like to run?");
@@ -174,7 +162,10 @@ void getTrivialFactors(Options options, Conjecture conjecture) {
             }
         }
     }
-
+    if (options.dualRieselMode) {
+        parseFilters(options, conjecture, trivialFactors);
+        return;
+    }
     askForFactors(options, conjecture, trivialFactors, true);
 }
 
@@ -312,4 +303,11 @@ void parseFilters(Options options, Conjecture conjecture, std::vector<std::vecto
     }
     conjecture.candidates.shrink_to_fit();
     println("There are "+std::to_string(conjecture.candidates.size())+" candidates remaining after filtering.");
+    conjecture.fileName = conjecture.conjectureType + std::to_string(conjecture.base) + "-" + std::to_string(conjecture.minK) + "-" + std::to_string(conjecture.maxK);
+    if (options.dualRieselMode) {
+        conjecture.fileName = "R2";
+    }
+    conjecture.state = "initialTesting";
+    conjecture.saveToFile();
+    initialTesting(options, conjecture);
 }

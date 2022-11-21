@@ -1,14 +1,8 @@
 #ifndef INITIALIZATION_HPP
 #define INITIALIZATION_HPP
 
-#ifndef COMMON_HPP
 #include "common.hpp"
-#endif
-
-#ifndef VECTOR
-#define VECTOR
 #include <vector>
-#endif
 
 //Contains all initialization and initialization-related functions
 //Does NOT contain initial testing

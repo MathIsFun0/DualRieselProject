@@ -1,15 +1,8 @@
 #ifndef COMMON_HPP
 #define COMMON_HPP
 
-#ifndef STRING
-#define STRING
 #include <string>
-#endif
-
-#ifndef VECTOR
-#define VECTOR
 #include <vector>
-#endif
 
 //Common contains Conjecture and Settings classes.
 class Conjecture {

@@ -1,25 +1,10 @@
 #include "common.hpp"
 #include "util.hpp"
 
-#ifndef ALGORITHM
-#define ALGORITHM
 #include <algorithm>
-#endif
-
-#ifndef FSTREAM
-#define FSTREAM
-#include <fstream>
-#endif
-
-#ifndef IOSTREAM
-#define IOSTREAM
-#include <iostream>
-#endif
-
-#ifndef CLIMITS
-#define CLIMITS
 #include <climits>
-#endif
+#include <fstream>
+#include <iostream>
 
 Conjecture::Conjecture() {
     //Default values
@@ -94,7 +79,7 @@ Conjecture::Conjecture(std::string inputFile) {
         }
     }
     startingN = minN;
-    fileName = conjectureType + std::to_string(base) + "-" + std::to_string(minK) + "-" + std::to_string(maxK) + "-" + std::to_string(minN) + ".ini";
+    fileName = split(inputFile, '.')[0];    
 }
 
 std::string Conjecture::print() {
@@ -116,7 +101,7 @@ void Conjecture::saveToFile(std::string filePath) {
 }
 
 void Conjecture::saveToFile() {
-    std::ofstream file(fileName);
+    std::ofstream file(fileName+".ini");
     file << print() << std::endl;
     file.close();
 }

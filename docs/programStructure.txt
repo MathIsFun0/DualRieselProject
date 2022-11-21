@@ -1,3 +1,5 @@
 main.cpp - main executable portion
 util.cpp - helper functions used in other files
 common.cpp/hpp - Options and Conjecture classes
+initialization.cpp/hpp - functions for initialization phases
+initialTesting.cpp/hpp - functions for initial testing with PFGW

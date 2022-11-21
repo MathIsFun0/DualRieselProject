@@ -1,18 +1,19 @@
 #include "util.hpp"
 #include "common.hpp"
 #include "initialization.hpp"
+#include "initialTesting.hpp"
 
 void readFile() {
     println("Enter the file path.");
     std::string filePath;
     std::cin >> filePath;
     Conjecture conjecture(filePath);
-    conjecture.fileName = filePath+"_backup"; //prevent corruption at all costs
+    conjecture.fileName = filePath+"-backup"; //prevent corruption at all costs
     conjecture.saveToFile();
     conjecture.fileName = filePath;
-    if (conjecture.state == "Initial Testing") { /*initialTesting(conjecture)*/ }
-    else if (conjecture.state == "Sieving") { /*sieveAndTest(conjecture)*/ }
-    else if (conjecture.state == "Testing") { /*sieveAndTest(conjecture)*/ }
+    if (conjecture.state == "initialTesting") { /*initialTesting(conjecture)*/ }
+    else if (conjecture.state == "sieving") { /*sieveAndTest(conjecture)*/ }
+    else if (conjecture.state == "testing") { /*sieveAndTest(conjecture)*/ }
     else { /*initialTesting(conjecture)*/ };
 }
 
