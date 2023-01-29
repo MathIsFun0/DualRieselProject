@@ -1,9 +1,9 @@
 # Short Term Goal - add enough features to be able to test any conjecture
 
-- Initialization
- - Finish `parseFilters()`
-- Initial Testing with PFGW
- - Port from Java Program
+- Initialization (DONE)
+ - Finish `parseFilters()` (DONE)
+- Initial Testing with PFGW (In Progress)
+ - Port from Java Program (In Progress)
  - Each PFGW instance should have own result file
 - Sieving and Testing
  - For each block of 10,000:
