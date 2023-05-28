@@ -1,0 +1,3 @@
+Put this in the developer command prompt:
+
+cl /EHsc /I"." main.cpp initialization.cpp initialTesting.cpp common.cpp util.cpp /Fe:dsrs.exe

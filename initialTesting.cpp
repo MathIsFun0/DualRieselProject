@@ -6,19 +6,10 @@
 #include <chrono>
 #include <cmath>
 #include <cstdlib>
-#include <fstream>
 #include <string>
-
-#define BOOST_THREAD_VERSION 4
-#include <boost/thread.hpp>
-#include <boost/thread/future.hpp>
-
-#ifdef _WIN32
-#define EXECPREFIX ""
-#else
-#define EXECPREFIX "./"
-#endif
-
+#include <fstream>
+#include <future>
+#include <thread>
 
 
 void initialTesting(Options options, Conjecture conjecture) {
@@ -61,15 +52,21 @@ void initialTesting(Options options, Conjecture conjecture) {
             thisFile.close();
         }
         println("Testing n = "+std::to_string(conjecture.minN));
-        std::vector<boost::future<int>> futureOutcomes;
+        std::vector<std::future<int>> futureOutcomes;
         futureOutcomes.reserve(numInstances);
         for (int i = 0; i < numInstances; i++) {
             //makes and goes to temp/pfgwX, then runs it.
             //wrapped in async call so that it's, well.. async.
-            //todo: support windows with boost (https://stackoverflow.com/questions/45565412/invalid-use-of-incomplete-type-using-stdfuture)
-            futureOutcomes.push_back(boost::async(boost::launch::async, systemWrapper, 
+            //todo: support windows
+            #ifndef _WIN32
+            futureOutcomes.push_back(std::async(std::launch::async, systemWrapper, 
             "cd temp; mkdir -p pfgw"+std::to_string(i)+";cd pfgw"+std::to_string(i)+";"+
-            EXECPREFIX+"../../"+options.pfgwPath+" -T"+std::to_string(options.pfgwThreadsPerInstance)+ " ../../"+basePath+std::to_string(i)+".txt"));  
+            "./../../"+options.pfgwPath+" -T"+std::to_string(options.pfgwThreadsPerInstance)+ " ../../"+basePath+std::to_string(i)+".txt"));  
+            #else
+            futureOutcomes.push_back(std::async(std::launch::async, systemWrapper, 
+            "cd temp & mkdir pfgw"+std::to_string(i)+" & cd pfgw"+std::to_string(i)+" & "+
+            "\"../../"+options.pfgwPath+"\" -T"+std::to_string(options.pfgwThreadsPerInstance)+ " \"../../"+basePath+std::to_string(i)+".txt\""));  
+            #endif
         }
         for (int i = 0; i < numInstances; i++) {
             futureOutcomes[i].wait();

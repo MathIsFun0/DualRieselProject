@@ -1,6 +1,7 @@
 dsrs
 *.ini
-dsrs.exe
+*.exe
+*.obj
 old
 DualConjectures.java
 cmd.exe.lnk
