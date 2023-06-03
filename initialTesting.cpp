@@ -1,3 +1,5 @@
+// Runs the inital testing using PFGW
+
 #include "initialTesting.hpp"
 #include "common.hpp"
 #include "util.hpp"
@@ -57,7 +59,6 @@ void initialTesting(Options options, Conjecture conjecture) {
         for (int i = 0; i < numInstances; i++) {
             //makes and goes to temp/pfgwX, then runs it.
             //wrapped in async call so that it's, well.. async.
-            //todo: support windows
             #ifndef _WIN32
             futureOutcomes.push_back(std::async(std::launch::async, systemWrapper, 
             "cd temp; mkdir -p pfgw"+std::to_string(i)+";cd pfgw"+std::to_string(i)+";"+
