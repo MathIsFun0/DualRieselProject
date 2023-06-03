@@ -1,3 +1,5 @@
+// Contains code that lets the user describe the conjecture they want to solve.
+
 #include "initialization.hpp"
 #include "common.hpp"
 #include "util.hpp"
@@ -8,22 +10,24 @@
 #include <cmath>
 #include <cstdio>
 
+//Best representation of the plus/minus symbol for each OS
 #define PLUSMINUS "±"
 #ifdef _WIN32
 #undef PLUSMINUS
 #define PLUSMINUS "+/-"
 #endif
 
+// Gets all values from the user and performs calculations to initialize the conjecture file
 void initialization(Options options) {
     Conjecture conjecture;
-    if (options.dualRieselMode) {
-        conjecture.conjectureType = "Rp";
+    if (options.dualRieselMode) { // settings for running Riesel Base 2 (R2), if the option is turned on
+        conjecture.conjectureType = "Rp"; // using Rp because it is more exclusive (solving Rp solves Ra, but not neccessarily vice versa)
         conjecture.base = 2;
         conjecture.minK = 1;
-        conjecture.maxK = 509202;
+        conjecture.maxK = 509202; // conjectured K for R2
         conjecture.minN = 1;
         conjecture.maxN = INT_MAX; 
-        getTrivialFactors(options, conjecture);
+        getTrivialFactors(options, conjecture); //Don't prompt for user input
         return;
     }
     std::string temp;
@@ -121,11 +125,17 @@ void initialization(Options options) {
     }
 }
 
+// Solve for all "trivial" and algebraic factors.
+// These are numbers that don't form a covering set, but always have a common factor 
 void getTrivialFactors(Options options, Conjecture conjecture) {
+    // Trivial factors are stored as a 2D vector.
+    // The format for this is described at https://docs.google.com/document/d/1fkCgsESiV2CuZ48Vh3TTh35bOEq21gsc657teOQViWI/edit 
+    // The math for this is in calculating_trivial_factors.md in the docs folder.
     std::vector<std::vector<int>> trivialFactors;
+
     //Non-algebraic Factors (type 0)
     for (int i : distinctPrimeFactors(conjecture.base)) {
-        trivialFactors.push_back({0, 0, i});
+        trivialFactors.push_back({0, 0, i}); //The base and k have a common factor
     }
     for (int i : distinctPrimeFactors(conjecture.base - 1)) {
         if (conjecture.conjectureType == "S") {
@@ -149,7 +159,7 @@ void getTrivialFactors(Options options, Conjecture conjecture) {
     if (conjecture.conjectureType != "S" && !ignoreSpecialSquares) {
         for (int p : distinctPrimeFactors(conjecture.base+1)) {
             if (p % 4 == 1) {
-                //Finding the modulo brute force is enough here
+                //Finding the modulo via brute force is fast enough here
                 int num = 0;
                 int i = 1;
                 while (num == 0) {
@@ -163,15 +173,16 @@ void getTrivialFactors(Options options, Conjecture conjecture) {
         }
     }
     if (options.dualRieselMode) {
-        parseFilters(options, conjecture, trivialFactors);
+        parseFilters(options, conjecture, trivialFactors); // skip asking for factors, since we know this works
         return;
     }
     askForFactors(options, conjecture, trivialFactors, true);
 }
 
+// Ask for any factors missed by DSRS
 void askForFactors(Options options, Conjecture conjecture, std::vector<std::vector<int>> trivialFactors, bool firstTime) {
     if (firstTime) {
-        print("Trivial/algebraic factors auto-generated. ");
+        print("Trivial/algebraic factors auto-generated. "); // The first time entering the function.
     } else {
         println("Enter a factor, using the format on https://docs.google.com/document/d/1fkCgsESiV2CuZ48Vh3TTh35bOEq21gsc657teOQViWI/edit.");
         std::string response;
@@ -205,8 +216,9 @@ void askForFactors(Options options, Conjecture conjecture, std::vector<std::vect
     }
 }
 
+// Filter candidates based on trivial/algebraic factors
 void parseFilters(Options options, Conjecture conjecture, std::vector<std::vector<int>> trivialFactors) {
-    //Estimate how many k will be remaining
+    //Estimate a range of how many k will be remaining
     long long estimatedMax = conjecture.maxK - conjecture.minK + 1;
     long long estimatedMin = conjecture.maxK - conjecture.minK + 1;
     for (std::vector<int> factor : trivialFactors) {

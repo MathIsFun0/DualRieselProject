@@ -1,3 +1,5 @@
+//Common: Defines core classes used by other parts of the program.
+
 #include "common.hpp"
 #include "util.hpp"
 
@@ -6,43 +8,46 @@
 #include <fstream>
 #include <iostream>
 
+// Stores information about the Dual Riesel/Sierpinski conjecture being tested, and the limits to test up to.
+// Can be saved/loaded from a .ini file
 Conjecture::Conjecture() {
     //Default values
     conjectureType = "";
     base = 0;
     minK = 0;
-    maxK = LLONG_MAX;
+    maxK = LLONG_MAX; //maximum possible value
     startingN = 0;
     minN = 0;
-    maxN = INT_MAX;
+    maxN = INT_MAX; //maximum possible value
     step = 0;
     candidates = std::vector<long long>();
     state = "";
 }
+
 Conjecture::Conjecture(std::string inputFile) {
     //Default values
     conjectureType = "";
     base = 0;
     minK = 0;
-    maxK = LLONG_MAX;
+    maxK = LLONG_MAX; //maximum possible value
     startingN = 0;
     minN = 0;
-    maxN = INT_MAX;
+    maxN = INT_MAX; //maximum possible value
     step = 0;
     candidates = std::vector<long long>();
     state = "";
 
-    std::string input;
-    std::string inputLine;
+    std::string input; //Input will be stored here
+    std::string inputLine; //The current line of the input file
     std::ifstream in(inputFile);
+    
+    // Code to get inputs
     if (in.is_open()) {
         bool isDone = false;
         while (!isDone) {
+            //Read the configuration file, line by line
             if (!std::getline(in, inputLine)) {
-                isDone = true;
-            }
-            if (inputLine.find("#") != std::string::npos) {
-                isDone = true;
+                isDone = true; //end of file
             } else {
                 input += inputLine;
                 input += "\n";
@@ -50,17 +55,17 @@ Conjecture::Conjecture(std::string inputFile) {
         }
         in.close();
     } else {
-        std::cout << "Unable to open file\n"; //Can't do print() because it assumes Conjecture::print()
+        std::cout << "Unable to open file\n";
         exit(1);
     }
-    input.erase(std::remove(input.begin(), input.end(), '\r'), input.end()); //In case Linux reads a Windows file - https://stackoverflow.com/questions/20326356/how-to-remove-all-the-occurrences-of-a-char-in-c-string
-    std::vector<std::string> splitInput = split(input, '\n');
+    input.erase(std::remove(input.begin(), input.end(), '\r'), input.end()); //Linux compatibility for newlines - https://stackoverflow.com/questions/20326356/how-to-remove-all-the-occurrences-of-a-char-in-c-string
+    std::vector<std::string> splitInput = split(input, '\n'); //Split into each line
     for (std::string arg : splitInput) {
         if (arg[0] == '#') {
-            continue;
+            continue; // ignore comments
         };
-        std::vector<std::string> splitArg = split(arg, '=');
-        //Here, stoi and stoll convert string to other types
+        std::vector<std::string> splitArg = split(arg, '='); //Split optionname and value
+        //Parse inputs - the functions stoi and stoll convert strings to the appropriate type of number (i or ll)
         if (splitArg[0] == "conjectureType") {conjectureType = splitArg[1];}
         else if (splitArg[0] == "state") {state = splitArg[1];}
         else if (splitArg[0] == "base") {base = std::stoi(splitArg[1]);}
@@ -106,9 +111,11 @@ void Conjecture::saveToFile() {
     file.close();
 }
 
+// Stores the configuration of DSRS.
+// Can be saved/loaded from an ini file.
 Options::Options(std::string inputFile) {
     //Default values
-    dualRieselMode = false;
+    dualRieselMode = false; // automatically runs Riesel Base 2
     pfgwInstances = 1;
     pfgwThreadsPerInstance = 1;
     sieveInstances = 1;
@@ -121,6 +128,7 @@ Options::Options(std::string inputFile) {
     stepSize = 10000;
     sieveFactor = 1;
 
+    //The method of getting inputs is the same as in the Conjecture class.
     std::string input;
     std::string inputLine;
     std::ifstream in(inputFile);
@@ -129,9 +137,6 @@ Options::Options(std::string inputFile) {
         while (!isDone) {
             if (!std::getline(in, inputLine)) {
                 isDone = true;
-                continue;
-            }
-            if (inputLine.find("#") != std::string::npos) {
                 continue;
             } else {
                 input += inputLine;

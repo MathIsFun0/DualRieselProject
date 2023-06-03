@@ -11,6 +11,7 @@ void readFile() {
     conjecture.fileName = filePath+"-backup"; //prevent corruption at all costs
     conjecture.saveToFile();
     conjecture.fileName = filePath;
+    //Some incomplete functions are commented out here.
     if (conjecture.state == "initialTesting") { /*initialTesting(conjecture)*/ }
     else if (conjecture.state == "sieving") { /*sieveAndTest(conjecture)*/ }
     else if (conjecture.state == "testing") { /*sieveAndTest(conjecture)*/ }

@@ -1,10 +1,11 @@
+//For information on this code, see common.cpp.
+
 #ifndef COMMON_HPP
 #define COMMON_HPP
 
 #include <string>
 #include <vector>
 
-//Common contains Conjecture and Settings classes.
 class Conjecture {
     public:
         std::string conjectureType;
