@@ -73,6 +73,7 @@
         "xlocmon": "cpp",
         "xloctime": "cpp",
         "xtree": "cpp",
-        "climits": "cpp"
+        "climits": "cpp",
+        "filesystem": "cpp"
     }
 }

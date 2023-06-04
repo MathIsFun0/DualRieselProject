@@ -1,9 +1,13 @@
-//Stores general utility functions used by multiple files.
-
 #include "util.hpp"
 
 #include <cmath>
 #include <sstream>
+#include <filesystem>
+#if defined(_WIN32)
+    #include <direct.h>  // For Windows
+#else
+    #include <sys/stat.h>  // For Linux and macOS
+#endif
 
 // Converts a vector of strings to a string.
 std::string vec2string(std::vector<std::string> vec, bool raw) {
@@ -110,4 +114,28 @@ long long calculateModBetween(long long x, long long y, long long m, long long n
 //Runs a command in the command line using std::system.
 int systemWrapper(std::string arg) {
     return std::system(arg.c_str());
+}
+
+void clearTempDirectory() {
+    for (const auto& entry : std::filesystem::directory_iterator("temp")) {
+        const auto& path = entry.path();
+        if (std::filesystem::is_directory(path)) {
+            removeDirectoryContents(path);  // Recursively remove subdirectories
+            std::filesystem::remove(path);                // Remove the subdirectory itself
+        } else {
+            std::filesystem::remove(path);                // Remove the file
+        }
+    }
+}
+
+void removeDirectoryContents(const std::filesystem::path& directoryPath) {
+    for (const auto& entry : std::filesystem::directory_iterator(directoryPath)) {
+        const auto& path = entry.path();
+        if (std::filesystem::is_directory(path)) {
+            removeDirectoryContents(path);  // Recursively remove subdirectories
+            std::filesystem::remove(path);                // Remove the subdirectory itself
+        } else {
+            std::filesystem::remove(path);                // Remove the file
+        }
+    }
 }

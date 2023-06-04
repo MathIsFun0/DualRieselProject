@@ -19,6 +19,11 @@ void readFile() {
 }
 
 int main() {
+    #ifndef _WIN32
+    systemWrapper("mkdir -p temp");
+    #else
+    systemWrapper("if not exist \"temp\" mkdir temp");
+    #endif
     Options options("dsrs.ini");
     println("What do you want to run today?\n");
     println("[0] Continue from a save.");

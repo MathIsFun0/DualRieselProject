@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <filesystem>
 
 //These functions are explained in util.cpp.
 std::vector<std::string> split(std::string string, char delimiter);
@@ -12,6 +13,8 @@ std::vector<int> distinctPrimeFactors(int n);
 std::vector<int> perfectPowers(int n, int p = 2);
 long long calculateModBetween(long long x, long long y, long long m, long long n);
 int systemWrapper(std::string arg);
+void clearTempDirectory();
+void removeDirectoryContents(const std::filesystem::path& directoryPath);
 
 //Converts a vector of elements to a string.
 std::string vec2string(std::vector<std::string> vec, bool raw = false);
